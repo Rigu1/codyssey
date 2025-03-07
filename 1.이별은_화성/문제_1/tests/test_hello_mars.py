@@ -6,9 +6,13 @@
 message = "Hello Mars"
 
 def test_hello_mars(): 
+    output = ""
+    
     if message == "Hello Mars":
-        print("🟢 PASS")
+        output += "🟢 PASS"
     else :
-        print("🔴 FAIL")
+        output += "🔴 FAIL"
+        
+    print(output + " << test_hello_mars")
         
 test_hello_mars()

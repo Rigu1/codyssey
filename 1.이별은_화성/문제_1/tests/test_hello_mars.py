@@ -3,6 +3,8 @@
 # 작성자: Rigu1
 # 작성일: 2025-03-08
 
+message = "Hello Mars"
+
 def test_hello_mars(): 
     if message == "Hello Mars":
         print("🟢 PASS")

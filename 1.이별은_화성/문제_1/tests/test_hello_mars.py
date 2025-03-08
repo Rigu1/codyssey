@@ -3,10 +3,14 @@
 # 작성자: Rigu1
 # 작성일: 2025-03-08
 
-file_path = "/".join(__file__.split("/")[:-2]) + "/hello_mars.py"
+PARENT_DIR = "/".join(__file__.split("/")[:-2])
+
+FILE_NAME = "hello_mars.py"
+FILE_PATH = PARENT_DIR + "/" + FILE_NAME
+
 context = {}
 
-with open(file_path, "r", encoding="utf-8") as file:
+with open(FILE_PATH, "r", encoding="utf-8") as file:
     exec(file.read(), context)
 
 message = context["MESSAGE"]

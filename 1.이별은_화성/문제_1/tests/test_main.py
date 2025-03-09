@@ -3,28 +3,33 @@
 # 작성자: Rigu1
 # 작성일: 2025-03-09
 
+TEST_FILE_NAME = __file__.split("/")[-1]
+
 PARENT_DIR = "/".join(__file__.split("/")[:-2])
 STATIC_DIR = PARENT_DIR + "/static"
 
-FILE_NAME = "mission_computer_main.log"
-FILE_PATH = STATIC_DIR + "/" + FILE_NAME
+LOG_FILE_NAME = "mission_computer_main.log"
+LOG_FILE_PATH = STATIC_DIR + "/" + LOG_FILE_NAME
 
-LOG = ["timestamp,event,messag", 
+LOG = ["timestamp,event,message", 
        "2023-08-27 12:00:00,INFO,Center and mission control systems powered down."]
 
 def test_main():
-    with open(FILE_PATH, "r", encoding="utf-8") as file:
-        log_data = file.read().splitlines()
-
-    output = ""
+    try:
+        with open(LOG_FILE_PATH, "r", encoding="utf-8") as file:
+            log_data = file.read().splitlines()
+    except FileNotFoundError:
+        print(f"❌  ERROR: 로그 파일을 찾을 수 없습니다: {LOG_FILE_NAME}" )
+        return
 
     if LOG[0] != log_data[0] or LOG[-1] != log_data[-1]:
-        output += "🔴 FAIL << The log is different. "
+        print(f"🔴  FAIL: The log is different.")
+        return
 
-    if output == "":
-        output += "🟢 PASS"
-    
-    print(output + " << test_main")
+    print(f"🟢  PASS")
+    return
 
 if __name__ == "__main__":
+    print(TEST_FILE_NAME)
     test_main()
+    

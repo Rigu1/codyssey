@@ -3,25 +3,28 @@
 # 작성자: Rigu1
 # 작성일: 2025-03-08
 
+TEST_FILE_NAME = __file__.split("/")[-1]
+
 PARENT_DIR = "/".join(__file__.split("/")[:-2])
 
-FILE_NAME = "hello_mars.py"
-FILE_PATH = PARENT_DIR + "/" + FILE_NAME
+TARGET_FILE_NAME = "hello_mars.py"
+TARGET_FILE_NAME = PARENT_DIR + "/" + TARGET_FILE_NAME
+
+MESSAGE = "Hello Mars"
 
 def test_hello_mars():
     context = {}
 
-    with open(FILE_PATH, "r", encoding="utf-8") as file:
+    with open(TARGET_FILE_NAME, "r", encoding="utf-8") as file:
         exec(file.read(), context)
+        
+    if context["MESSAGE"] == MESSAGE:
+        print(f"🟢  PASS")
+        return
 
-    output = ""
-    
-    if context["MESSAGE"] == "Hello Mars":
-        output += "🟢 PASS"
-    else:
-        output += "🔴 FAIL << The message is different from \"Hello Mars\"."
-    
-    print(output + " << test_hello_mars")
+    print(f"🔴  FAIL << The message is different from {MESSAGE}")
+    return
 
 if __name__ == "__main__":
+    print(TEST_FILE_NAME)
     test_hello_mars()

@@ -8,20 +8,18 @@ PARENT_DIR = "/".join(__file__.split("/")[:-2])
 FILE_NAME = "hello_mars.py"
 FILE_PATH = PARENT_DIR + "/" + FILE_NAME
 
-context = {}
-
-with open(FILE_PATH, "r", encoding="utf-8") as file:
-    exec(file.read(), context)
-
-message = context["MESSAGE"]
-
 def test_hello_mars():
+    context = {}
+
+    with open(FILE_PATH, "r", encoding="utf-8") as file:
+        exec(file.read(), context)
+
     output = ""
     
-    if message == "Hello Mars":
+    if context["MESSAGE"] == "Hello Mars":
         output += "🟢 PASS"
     else:
-        output += "🔴 FAIL"
+        output += "🔴 FAIL << The message is different from \"Hello Mars\"."
     
     print(output + " << test_hello_mars")
 

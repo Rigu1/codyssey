@@ -8,17 +8,19 @@ TEST_FILE_NAME = __file__.split("/")[-1]
 PARENT_DIR = "/".join(__file__.split("/")[:-2])
 
 TARGET_FILE_NAME = "hello_mars.py"
-TARGET_FILE_NAME = PARENT_DIR + "/" + TARGET_FILE_NAME
+TARGET_FILE_PATH = PARENT_DIR + "/" + TARGET_FILE_NAME
 
 MESSAGE = "Hello Mars"
 
 def test_hello_mars():
-    context = {}
-
-    with open(TARGET_FILE_NAME, "r", encoding="utf-8") as file:
-        exec(file.read(), context)
+    global_namespace = {}
+    
+    with open(TARGET_FILE_PATH, "r", encoding="utf-8") as file:
+        exec(file.read(), global_namespace)
         
-    if context["MESSAGE"] == MESSAGE:
+    massage = global_namespace["MESSAGE"]
+        
+    if massage == MESSAGE:
         print(f"🟢  PASS")
         return
 

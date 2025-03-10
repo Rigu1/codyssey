@@ -23,9 +23,15 @@ class LogManager:
 
     def get_log_data(self):
         return self.log_data
+    
+    def get_reverse_log_data(self):
+        return list(reversed(self.log_data))
 
     def print_log(self):
         print(*self.log_data, sep="\n")
+        
+    def print_reverse_log(self):
+        print(*reversed(self.log_data), sep="\n")
     
 if __name__ == "__main__": 
     log_manager = LogManager()  

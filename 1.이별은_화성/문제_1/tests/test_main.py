@@ -3,8 +3,6 @@
 # 작성자: Rigu1
 # 작성일: 2025-03-09
 
-TEST_FILE_NAME = __file__.split('/')[-1]
-
 PARENT_DIR = '/'.join(__file__.split('/')[:-2])
 
 TARGET_FILE_NAME = 'main.py'
@@ -54,7 +52,6 @@ def test_reverse_print_log(log_manager):
 
 
 if __name__ == '__main__':
-    print(TEST_FILE_NAME)
     log_manager = setup_log_manager()
     test_print_log(log_manager)
     test_reverse_print_log(log_manager)

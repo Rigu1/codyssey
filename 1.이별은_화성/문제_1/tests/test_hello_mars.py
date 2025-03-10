@@ -3,8 +3,6 @@
 # 작성자: Rigu1
 # 작성일: 2025-03-08
 
-TEST_FILE_NAME = __file__.split('/')[-1]
-
 PARENT_DIR = '/'.join(__file__.split('/')[:-2])
 
 TARGET_FILE_NAME = 'hello_mars.py'
@@ -30,5 +28,4 @@ def test_hello_mars():
 
 
 if __name__ == '__main__':
-    print(TEST_FILE_NAME)
     test_hello_mars()

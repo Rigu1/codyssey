@@ -4,20 +4,39 @@
 # Rigu1
 
 
+STATIC_PATH = '/static'
+ROOT_PATH = '/'.join(__file__.split('/')[:-2])
+
+TARGET_FILE_NAME = 'Mars_Base_Inventory_List.csv'
+TARGET_FILE_PATH = ROOT_PATH + STATIC_PATH + '/' + TARGET_FILE_NAME
+
 INVENTORY_BOUNDARIES = {
     'first_item': 'Substance,Weight (g/cm³),Specific Gravity,Strength,Flammability',
     'last_item': 'Phenolic Resin,Various,Various,Various,0',
 }
 
 
+def file_lord():
+    try:
+        with open(TARGET_FILE_PATH, 'r', encoding='utf-8') as file:
+            return file.read().splitlines()
+    except FileNotFoundError:
+        print(f'❌ ERROR: File not found')
+
+    return None
+
+
 # 1. Mars_Base_Inventory_List.csv 의 내용을 읽어 들어서 출력
 def test_print_inventory_List():
     print(f'> {test_print_inventory_List.__name__}')
 
-    actual_first_item = (
-        'Substance,Weight (g/cm³),Specific Gravity,Strength,Flammability'
-    )
-    actual_last_item = 'Phenolic Resin,Various,Various,Various,0'
+    inventory_item = file_lord()
+
+    if inventory_item is None:
+        return
+
+    actual_first_item = inventory_item[0]
+    actual_last_item = inventory_item[-1]
 
     expected_first_item = INVENTORY_BOUNDARIES['first_item']
     expected_last_item = INVENTORY_BOUNDARIES['last_item']

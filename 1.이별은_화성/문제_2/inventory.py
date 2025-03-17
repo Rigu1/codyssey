@@ -12,16 +12,17 @@ class InventoryManager:
     TARGET_FILE_PATH = ROOT_PATH + STATIC_PATH + '/' + TARGET_FILE_NAME
 
     def __init__(self):
-        self.inventory_data = []
+        self.inventory_data = self.get_data()
 
-    def lord_data(self):
+    def get_data(self):
         try:
             with open(self.TARGET_FILE_PATH, 'r', encoding='utf-8') as file:
-                self.inventory_data = file.read().splitlines()
+                return file.read().splitlines()
         except FileNotFoundError:
-            print(f'❌ ERROR: File not found')
+            print('❌ ERROR: File not found')
+            raise SystemExit(1)
 
-        return None
+        return []
 
     def print_inventory_data(self):
         print(*self.inventory_data, sep='\n')
@@ -32,5 +33,4 @@ class InventoryManager:
 
 if __name__ == '__main__':
     inventory_manager = InventoryManager()
-    inventory_manager.lord_data()
     inventory_manager.print_inventory_data()

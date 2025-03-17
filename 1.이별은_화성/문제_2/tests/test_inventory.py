@@ -23,13 +23,12 @@ def setup_inventory_manager():
     InventoryManager = global_namespace.get('InventoryManager')
 
     inventory_manager = InventoryManager()
-    inventory_manager.lord_data()
     return inventory_manager
 
 
 # 1. Mars_Base_Inventory_List.csv 의 내용을 읽어 들어서 출력
-def test_print_inventory_List(inventory_manager):
-    print(f'> {test_print_inventory_List.__name__}')
+def test_print_inventory_list(inventory_manager):
+    print(f'> {test_print_inventory_list.__name__}')
 
     inventory_item = inventory_manager.get_inventory_data()
 
@@ -63,4 +62,4 @@ def test_print_inventory_List(inventory_manager):
 
 if __name__ == '__main__':
     inventory_manager = setup_inventory_manager()
-    test_print_inventory_List(inventory_manager)
+    test_print_inventory_list(inventory_manager)

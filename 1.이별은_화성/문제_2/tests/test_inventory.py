@@ -3,12 +3,10 @@
 # 2025-03-17
 # Rigu1
 
-
-STATIC_PATH = '/static'
 ROOT_PATH = '/'.join(__file__.split('/')[:-2])
 
-TARGET_FILE_NAME = 'Mars_Base_Inventory_List.csv'
-TARGET_FILE_PATH = ROOT_PATH + STATIC_PATH + '/' + TARGET_FILE_NAME
+TARGET_FILE_NAME = 'inventory.py'
+TARGET_FILE_PATH = ROOT_PATH + '/' + TARGET_FILE_NAME
 
 INVENTORY_BOUNDARIES = {
     'first_item': 'Substance,Weight (g/cm³),Specific Gravity,Strength,Flammability',
@@ -16,21 +14,24 @@ INVENTORY_BOUNDARIES = {
 }
 
 
-def file_lord():
-    try:
-        with open(TARGET_FILE_PATH, 'r', encoding='utf-8') as file:
-            return file.read().splitlines()
-    except FileNotFoundError:
-        print(f'❌ ERROR: File not found')
+def setup_inventory_manager():
+    global_namespace = {'__file__': TARGET_FILE_PATH}
 
-    return None
+    with open(TARGET_FILE_PATH, 'r', encoding='utf-8') as file:
+        exec(file.read(), global_namespace)
+
+    InventoryManager = global_namespace.get('InventoryManager')
+
+    inventory_manager = InventoryManager()
+    inventory_manager.lord_data()
+    return inventory_manager
 
 
 # 1. Mars_Base_Inventory_List.csv 의 내용을 읽어 들어서 출력
-def test_print_inventory_List():
+def test_print_inventory_List(inventory_manager):
     print(f'> {test_print_inventory_List.__name__}')
 
-    inventory_item = file_lord()
+    inventory_item = inventory_manager.get_inventory_data()
 
     if inventory_item is None:
         return
@@ -61,4 +62,5 @@ def test_print_inventory_List():
 # bonus-2. 저장된 Mars_Base_Inventory_List.bin 의 내용을 다시 읽어 들여서 화면에 내용을 출력
 
 if __name__ == '__main__':
-    test_print_inventory_List()
+    inventory_manager = setup_inventory_manager()
+    test_print_inventory_List(inventory_manager)

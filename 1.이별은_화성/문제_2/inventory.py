@@ -5,6 +5,11 @@
 
 
 class InventoryManager:
+    ERROR_MESSAGES = {
+        FileNotFoundError: 'File not found >> {}',
+        PermissionError: 'Permission denied >> {}',
+    }
+
     STATIC_PATH = '/static'
     ROOT_PATH = '/'.join(__file__.split('/')[:-1])
 
@@ -12,25 +17,22 @@ class InventoryManager:
     TARGET_FILE_PATH = ROOT_PATH + STATIC_PATH + '/' + TARGET_FILE_NAME
 
     def __init__(self):
-        self.inventory_data = self.get_data()
+        self.inventory_lines = self._get_data_from_file()
 
-    def get_data(self):
+    def _get_data_from_file(self):
         try:
             with open(self.TARGET_FILE_PATH, 'r', encoding='utf-8') as file:
                 return file.read().splitlines()
-        except FileNotFoundError:
-            print('❌ ERROR: File not found')
-            raise SystemExit(1)
+        except (FileNotFoundError, PermissionError) as e:
+            error_message = self.ERROR_MESSAGES[type(e)].format(
+                self.TARGET_FILE_PATH
+            )
+            raise type(e)(error_message) from e
 
-        return []
-
-    def print_inventory_data(self):
-        print(*self.inventory_data, sep='\n')
-
-    def get_inventory_data(self):
-        return self.inventory_data
+    def get_inventory_lines(self):
+        return self.inventory_lines
 
 
 if __name__ == '__main__':
     inventory_manager = InventoryManager()
-    inventory_manager.print_inventory_data()
+    print(*inventory_manager.get_inventory_lines(), sep='\n')

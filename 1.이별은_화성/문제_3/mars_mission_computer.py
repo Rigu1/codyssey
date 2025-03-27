@@ -4,6 +4,9 @@
 
 import random
 
+with open('current_time.txt') as f:
+    CURRENT_TIME = f.read().strip()
+
 
 class DummySensor:
     ENV_VALUE_CONFIG = {
@@ -15,8 +18,18 @@ class DummySensor:
         'mars_base_internal_oxygen': (4, 7, 'int'),
     }
 
+    LOG_FILENAME = 'sensor_log.txt'
+    DELIMITER = ', '
+
     def __init__(self):
         self.env_values = {key: 0 for key in self.ENV_VALUE_CONFIG.keys()}
+
+    def _file_exists(self, path):
+        try:
+            with open(path, "r"):
+                return True
+        except FileNotFoundError:
+            return False
 
     def set_env(self):
         for key, (start, end, value_type) in self.ENV_VALUE_CONFIG.items():
@@ -26,6 +39,21 @@ class DummySensor:
                 self.env_values[key] = round(random.uniform(start, end), 2)
 
     def get_env(self):
+        file_needs_header = not self._file_exists(self.LOG_FILENAME)
+
+        log_values = [CURRENT_TIME] + [
+            str(self.env_values[key]) for key in self.env_values
+        ]
+        log_line = self.DELIMITER.join(log_values) + '\n'
+
+        with open(self.LOG_FILENAME, 'a') as log_file:
+            if file_needs_header:
+                header_keys = ['datetime'] + list(self.env_values.keys())
+                header_line = self.DELIMITER.join(header_keys) + "\n"
+                log_file.write(header_line)
+
+            log_file.write(log_line)
+
         return self.env_values
 
 
